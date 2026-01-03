@@ -1,0 +1,81 @@
+/* =========================================================
+   history.css — История удалений
+   ========================================================= */
+
+/* Контейнер списка */
+.history-list-container {
+  display: grid;
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Карточка элемента истории */
+.history-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--surface-1);
+}
+
+.history-item p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.history-item strong {
+  color: var(--accent);
+}
+
+.history-item .deleted-at {
+  color: var(--text-muted);
+  font-size: 0.9em;
+  margin-top: 6px;
+}
+
+.history-item .origin-path {
+  color: var(--text-muted);
+  font-size: 0.9em;
+}
+
+/* Кнопки действий */
+.history-item-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.restore-button {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity var(--dur-1);
+}
+
+.restore-button:hover {
+  opacity: 0.9;
+}
+
+.delete-from-history-icon {
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.2;
+  font-size: 1.3rem;
+  opacity: 0.6;
+  transition: opacity var(--dur-1), transform var(--dur-1);
+}
+
+.delete-from-history-icon:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.history-hint {
+  opacity: 0.7;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+}

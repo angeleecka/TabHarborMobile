@@ -1,0 +1,312 @@
+/* =============================================================================
+   
+   📁 THEME.CSS — Переменные тем
+   
+   Что здесь:
+   - Полные наборы токенов для каждой темы (light, sea, dark, system)
+   - Контекстные чернила (--ink-*) для автоматического контраста
+   - Компонентные акценты (применение токенов)
+   
+   ⚠️ ПРИНЦИП: каждая тема задаёт ВСЕ токены явно, без наследования.
+   
+   ============================================================================= */
+
+/* ========== LIGHT THEME ========== */
+html[data-theme="light"] {
+  /* --- ПАЛИТРА --- */
+  --bg: #e0ac9d; /* peachy page background */
+  --text: #484a47; /* dark slate text */
+  --text-muted: rgba(72, 74, 71, 0.78);
+  --accent: #5c6d70; /* slate accent */
+  --warn: #e88873; /* coral warning */
+
+  /* --- ШАПКА И ФУТЕР (тёмная шапка, светлый текст) --- */
+  --header-bg: #484a47;
+  --header-fg: #e0ac9d;
+  --header-border: rgba(224, 172, 157, 0.25);
+
+  /* --- ПОВЕРХНОСТИ --- */
+  --surface-0: var(--bg);
+  --surface-1: rgba(92, 109, 112, 0.1);
+  --surface-2: rgba(92, 109, 112, 0.18);
+
+  /* --- ГРАНИЦЫ --- */
+  --hairline: rgba(72, 74, 71, 0.15);
+  --border: rgba(72, 74, 71, 0.2);
+
+  /* --- УНИВЕРСАЛЬНЫЕ ЧЕРНИЛА (для страницы) --- */
+  --ink-strong: rgba(72, 74, 71, 0.95);
+  --ink: rgba(72, 74, 71, 0.82);
+  --ink-weak: rgba(72, 74, 71, 0.62);
+
+  /* --- HOVER/ACTIVE --- */
+  --btn-hover-bg: rgba(92, 109, 112, 0.12);
+  --btn-active-bg: rgba(92, 109, 112, 0.22);
+
+  /* --- АКТИВНЫЙ ЧИП --- */
+  --chip-active-bg: rgba(92, 109, 112, 0.18);
+  --chip-active-border: #5c6d70;
+  --chip-active-fg: #5c6d70;
+
+  /* --- КОМПОНЕНТЫ --- */
+  --section-bg: rgba(0, 0, 0, 0.03);
+  --section-outline: rgba(0, 0, 0, 0.08);
+  --section-head-bg: rgba(0, 0, 0, 0.045);
+  --section-head-sep: rgba(0, 0, 0, 0.1);
+
+  --pagination-bg: var(--bg);
+  --pagination-divider: var(--border);
+
+  --toast-bg: #ffffff;
+  --overlay: rgba(0, 0, 0, 0.4);
+
+  /* --- FOCUS --- */
+  --focus: rgba(0, 128, 255, 0.25);
+  --focus-border: rgba(0, 128, 255, 0.45);
+
+  /* --- ПОПОВЕРЫ (наследуют шапку) --- */
+  --popover-bg: var(--header-bg);
+  --popover-fg: var(--header-fg);
+  --menu-hover-bg: rgba(224, 172, 157, 0.14);
+}
+
+/* ========== SEA THEME ========== */
+html[data-theme="sea"] {
+  /* --- ПАЛИТРА --- */
+  --bg: #c5c9a4; /* olive gray */
+  --text: #476a6f; /* deep teal */
+  --text-muted: rgba(71, 106, 111, 0.78);
+  --accent: #519e8a; /* teal */
+  --warn: #ecbeb4; /* coral */
+
+  /* --- ШАПКА И ФУТЕР (тёмная шапка, светлый текст) --- */
+  --header-bg: #476a6f;
+  --header-fg: #c5c9a4;
+  --header-border: rgba(197, 201, 164, 0.25);
+
+  /* --- ПОВЕРХНОСТИ --- */
+  --surface-0: var(--bg);
+  --surface-1: rgba(71, 106, 111, 0.08);
+  --surface-2: rgba(71, 106, 111, 0.16);
+
+  /* --- ГРАНИЦЫ --- */
+  --hairline: rgba(71, 106, 111, 0.15);
+  --border: rgba(71, 106, 111, 0.2);
+
+  /* --- УНИВЕРСАЛЬНЫЕ ЧЕРНИЛА --- */
+  --ink-strong: rgba(71, 106, 111, 0.95);
+  --ink: rgba(71, 106, 111, 0.82);
+  --ink-weak: rgba(71, 106, 111, 0.62);
+
+  /* --- HOVER/ACTIVE --- */
+  --btn-hover-bg: rgba(71, 106, 111, 0.1);
+  --btn-active-bg: rgba(71, 106, 111, 0.16);
+
+  /* --- АКТИВНЫЙ ЧИП --- */
+  --chip-active-bg: rgba(71, 106, 111, 0.18);
+  --chip-active-border: #519e8a;
+  --chip-active-fg: #476a6f;
+
+  /* --- КОМПОНЕНТЫ --- */
+  --section-bg: rgba(11, 91, 106, 0.07);
+  --section-outline: rgba(11, 91, 106, 0.18);
+  --section-head-bg: rgba(11, 91, 106, 0.1);
+  --section-head-sep: rgba(11, 91, 106, 0.22);
+
+  --pagination-bg: var(--bg);
+  --pagination-divider: var(--border);
+
+  --toast-bg: #ffffff;
+  --overlay: rgba(0, 0, 0, 0.4);
+
+  /* --- FOCUS --- */
+  --focus: rgba(0, 128, 255, 0.25);
+  --focus-border: rgba(0, 128, 255, 0.45);
+
+  /* --- ПОПОВЕРЫ --- */
+  --popover-bg: var(--header-bg);
+  --popover-fg: var(--header-fg);
+  --menu-hover-bg: rgba(197, 201, 164, 0.14);
+}
+
+/* ========== DARK THEME ========== */
+html[data-theme="dark"] {
+  /* --- ПАЛИТРА --- */
+  --bg: #0b0d12; /* dark base */
+  --text: #e5e7eb; /* light gray */
+  --text-muted: #9ca3af;
+  --accent: #60a5fa; /* blue */
+  --warn: #e0ac9d; /* peachy */
+
+  /* --- ШАПКА И ФУТЕР --- */
+  --header-bg: #1f1f1f;
+  --header-fg: #f2f2f2;
+  --header-border: rgba(255, 255, 255, 0.12);
+
+  /* --- ПОВЕРХНОСТИ (⚠️ СВЕТЛЕЕ фона в тёмной теме!) --- */
+  --surface-0: var(--bg);
+  --surface-1: #111319;
+  --surface-2: #1a1d24;
+
+  /* --- ГРАНИЦЫ --- */
+  --hairline: rgba(255, 255, 255, 0.12);
+  --border: #2a2f3a;
+
+  /* --- УНИВЕРСАЛЬНЫЕ ЧЕРНИЛА (инвертированные) --- */
+  --ink-strong: rgba(255, 255, 255, 0.96);
+  --ink: rgba(255, 255, 255, 0.85);
+  --ink-weak: rgba(255, 255, 255, 0.65);
+
+  /* --- HOVER/ACTIVE --- */
+  --btn-hover-bg: rgba(255, 255, 255, 0.08);
+  --btn-active-bg: rgba(255, 255, 255, 0.14);
+
+  /* --- АКТИВНЫЙ ЧИП --- */
+  --chip-active-bg: rgba(255, 255, 255, 0.12);
+  --chip-active-border: var(--accent);
+  --chip-active-fg: var(--text);
+
+  /* --- КОМПОНЕНТЫ --- */
+  --section-bg: rgba(255, 255, 255, 0.045);
+  --section-outline: rgba(255, 255, 255, 0.1);
+  --section-head-bg: rgba(255, 255, 255, 0.065);
+  --section-head-sep: rgba(255, 255, 255, 0.14);
+
+  --pagination-bg: #111319;
+  --pagination-divider: var(--border);
+
+  --toast-bg: #1a1d24;
+  --overlay: rgba(0, 0, 0, 0.5);
+
+  /* --- FOCUS --- */
+  --focus: rgba(0, 128, 255, 0.25);
+  --focus-border: rgba(0, 128, 255, 0.45);
+
+  /* --- ПОПОВЕРЫ --- */
+  --popover-bg: var(--header-bg);
+  --popover-fg: var(--header-fg);
+  --menu-hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+/* ========== SYSTEM THEME ========== */
+/* System light использует дефолты из base.css */
+
+/* System dark → копируем токены dark */
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] {
+    --bg: #0b0d12;
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+    --accent: #60a5fa;
+    --warn: #e0ac9d;
+
+    --header-bg: #1f1f1f;
+    --header-fg: #f2f2f2;
+    --header-border: rgba(255, 255, 255, 0.12);
+
+    --surface-0: var(--bg);
+    --surface-1: #111319;
+    --surface-2: #1a1d24;
+
+    --hairline: rgba(255, 255, 255, 0.12);
+    --border: #2a2f3a;
+
+    --ink-strong: rgba(255, 255, 255, 0.96);
+    --ink: rgba(255, 255, 255, 0.85);
+    --ink-weak: rgba(255, 255, 255, 0.65);
+
+    --btn-hover-bg: rgba(255, 255, 255, 0.08);
+    --btn-active-bg: rgba(255, 255, 255, 0.14);
+
+    --chip-active-bg: rgba(255, 255, 255, 0.12);
+    --chip-active-border: var(--accent);
+    --chip-active-fg: var(--text);
+
+    --section-bg: rgba(255, 255, 255, 0.045);
+    --section-outline: rgba(255, 255, 255, 0.1);
+    --section-head-bg: rgba(255, 255, 255, 0.065);
+    --section-head-sep: rgba(255, 255, 255, 0.14);
+
+    --pagination-bg: #111319;
+    --pagination-divider: var(--border);
+
+    --toast-bg: #1a1d24;
+    --overlay: rgba(0, 0, 0, 0.5);
+
+    --focus: rgba(0, 128, 255, 0.25);
+    --focus-border: rgba(0, 128, 255, 0.45);
+
+    --popover-bg: var(--header-bg);
+    --popover-fg: var(--header-fg);
+    --menu-hover-bg: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* === КОМПОНЕНТНЫЕ АКЦЕНТЫ (применение токенов) === */
+
+/* Шапка и Статусбар используют header-токены */
+.app-header,
+#app-header,
+#app-status {
+  background: var(--header-bg);
+  color: var(--header-fg);
+  border-color: var(--header-border);
+}
+
+/* 
+   Контекст "шапка/поиск":
+   - свои чернила (--ink-*)
+   - свои инпуты (--input-*)
+   Это затрагивает:
+   - шапку
+   - статусбар
+   - поповер поиска в шапке
+   - контейнер глобальных результатов поиска
+*/
+.app-header,
+#app-header,
+#app-status,
+.header-search-popover,
+#globalSearchResults {
+  /* Чернила для текста/иконок в этом контексте */
+  --ink-strong: color-mix(in oklab, var(--header-fg) 96%, transparent 4%);
+  --ink: color-mix(in oklab, var(--header-fg) 85%, transparent 15%);
+  --ink-weak: color-mix(in oklab, var(--header-fg) 65%, transparent 35%);
+
+  /* Инпуты (поиск, фильтры и т.п.) */
+  --input-bg: transparent;
+  --input-text: var(--header-fg);
+  --input-border: var(--header-fg);
+  --input-placeholder: color-mix(in oklab, var(--header-fg) 65%, transparent);
+  --input-focus-bg: color-mix(in oklab, var(--header-fg) 12%, transparent);
+  --input-focus-border: var(--header-fg);
+}
+
+/* Toast action в тёмных темах — контрастнее */
+html[data-theme="dark"] .toast-action {
+  background: var(--surface-1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+html[data-theme="dark"] .toast-action:hover,
+html[data-theme="dark"] .toast-action:focus-visible {
+  background: var(--accent);
+  color: #fff;
+  outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] .toast-action {
+    background: var(--surface-1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  html[data-theme="system"] .toast-action:hover,
+  html[data-theme="system"] .toast-action:focus-visible {
+    background: var(--accent);
+    color: #fff;
+    outline: none;
+  }
+}

@@ -1,0 +1,336 @@
+/* =============================================================================
+   
+   📁 BUTTONS.CSS — Кнопки-ссылки (плитки)
+   
+   Что здесь:
+   - База плитки (.assignment-button)
+   - Edit link (карандаш)
+   - Drag handle (решётка)
+   - DnD состояния
+   - Анимация добавления (.just-added)
+   - Кнопка «+» (.add-button)
+   - Подсветка search (.search-hl)
+   - List mode (html[data-view="rows"])
+   
+   ⚠️ УДАЛЕНЫ: все body.study-overlay и body.compact-900 селекторы (дубли)
+   
+   ============================================================================= */
+
+/* === БАЗА ПЛИТКИ === */
+.assignment-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 80px;
+  padding: 1.2rem 2rem;
+  background: var(--surface-1);
+  color: var(--accent);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  word-wrap: break-word;
+  cursor: pointer;
+  transition: background var(--dur-1), transform var(--dur-1),
+    border-color var(--dur-1);
+  -webkit-user-drag: none;
+}
+
+.assignment-button > span:not(.drag-handle) {
+  -webkit-user-drag: none;
+}
+
+/* === HOVER / FOCUS === */
+.assignment-button:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.assignment-button:focus-visible {
+  outline: 2px solid var(--focus-border);
+  outline-offset: 2px;
+}
+
+/* === EDIT LINK (карандаш в правом верхнем углу) === */
+.edit-link {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 4px 6px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--ink-weak); /* ✅ универсальные чернила */
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.edit-link:hover {
+  opacity: 1;
+  background: var(--btn-hover-bg);
+  transform: translateY(1px) rotate(90deg);
+  color: var(--ink-strong);
+}
+
+.edit-link:focus-visible {
+  outline: 2px solid var(--focus-border);
+  outline-offset: 2px;
+}
+
+/* === DRAG HANDLE (решётка в левом верхнем углу) === */
+.drag-handle {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.65;
+  cursor: grab;
+  user-select: none;
+  color: var(--ink-weak);
+}
+
+.assignment-button.dragging .drag-handle {
+  cursor: grabbing;
+  opacity: 0.9;
+}
+
+/* === DND СОСТОЯНИЯ === */
+.assignment-button.dragging {
+  opacity: 0.5;
+  filter: grayscale(0.5);
+}
+
+.assignment-button.drop-before {
+  box-shadow: inset 0 3px 0 var(--accent);
+}
+
+.assignment-button.drop-after {
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+/* Маркер вставки кнопки */
+.button-drop-marker {
+  width: 4px;
+  height: 60px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin: 0 8px;
+  pointer-events: none;
+  align-self: center;
+  box-shadow: 0 0 10px var(--accent);
+  position: relative;
+  z-index: 10;
+  animation: buttonMarkerPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes buttonMarkerPulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 12px var(--accent);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 6px var(--accent);
+  }
+}
+
+/* === АНИМАЦИЯ ДОБАВЛЕНИЯ === */
+.assignment-button.just-added {
+  animation: btnPulse 0.9s ease;
+}
+
+@keyframes btnPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent);
+  }
+  60% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* === КНОПКА «+» (в секции) === */ /*
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  color: var(--ink-weak);
+  font-size: 2rem;
+  font-weight: 200;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: all var(--dur-1);
+  border: 0;
+}
+
+.add-button:hover {
+  color: var(--ink-strong);
+  background: var(--surface-2);
+  transform: scale(1.05);
+}
+
+.add-button:active {
+  transform: scale(0.95);
+}
+
+.add-button:focus-visible {
+  outline: 2px solid var(--focus-border);
+  outline-offset: 2px;
+}*/
+
+/* Если add-button использует .ui-plus-btn (круглый с маской) */
+.add-button.ui-plus-btn {
+  --plus-size: var(--plus-size-l);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.add-button.ui-plus-btn:hover {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+/* Fallback для браузеров без color-mix */
+@supports not (background: color-mix(in srgb, white, black)) {
+  .add-button.ui-plus-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  html[data-theme="dark"] .add-button.ui-plus-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* === ПОДСВЕТКА СОВПАДЕНИЙ (search) === */
+.assignment-label mark.search-hl {
+  background: var(--hl-bg);
+  color: var(--hl-text);
+  text-decoration: underline;
+  text-decoration-color: var(--hl-underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  border: 0;
+}
+
+/* === АДАПТИВ: MOBILE === */
+@media (max-width: 768px) {
+  .assignment-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    min-height: 70px;
+  }
+}
+
+/* =============================================================================
+   LIST MODE (html[data-view="rows"])
+   
+   Что здесь:
+   - Грид → поток (display: block)
+   - Плитка → строка (flex, left align)
+   - Ручка в потоке (position: static)
+   - Текст переносится (white-space: normal)
+   - Edit-link справа (margin-left: auto)
+   - Разделители между строками
+   
+   ⚠️ ВСЕ overlay-селекторы УДАЛЕНЫ (были дублями)
+   ============================================================================= */
+
+/* Грид → поток */
+html[data-view="rows"] .assignments-grid {
+  display: block !important;
+  gap: 0 !important;
+}
+
+/* Плитка → строка списка */
+html[data-view="rows"] .assignment-button {
+  /* Reset tile styles */
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  transform: none !important;
+
+  /* Layout */
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 10px;
+
+  /* Sizing */
+  min-height: 0;
+
+  /* Spacing */
+  padding: 10px 12px;
+  margin: 0;
+
+  /* Positioning */
+  position: relative;
+}
+
+/* Ручка в потоке (НЕ absolute) */
+html[data-view="rows"] .drag-handle {
+  position: static;
+  left: auto;
+  top: auto;
+  margin: 3px 8px 0 0;
+  flex: 0 0 auto;
+  cursor: grab;
+}
+
+/* Текст переносится */
+html[data-view="rows"] .assignment-button .assignment-label,
+html[data-view="rows"] .assignment-button .btn-label {
+  flex: 1 1 auto;
+  overflow: visible;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
+/* Edit-link справа (НЕ absolute, в потоке) */
+html[data-view="rows"] .edit-link {
+  position: static;
+  margin-left: auto;
+  flex: 0 0 auto;
+  opacity: 0.75;
+  color: var(--ink-weak);
+  transform: none; /* без rotate в списке */
+}
+
+html[data-view="rows"] .assignment-button:hover .edit-link {
+  opacity: 1;
+  color: var(--ink-strong);
+}
+
+/* Ховер только на тексте */
+html[data-view="rows"] .assignment-button .assignment-label:hover,
+html[data-view="rows"] .assignment-button .btn-label:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Разделитель между строками */
+html[data-view="rows"] .assignment-button + .assignment-button {
+  border-top: 1px solid var(--border);
+}

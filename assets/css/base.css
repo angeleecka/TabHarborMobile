@@ -1,0 +1,400 @@
+/* =============================================================================
+   
+   📁 BASE.CSS — Токены, Reset, Утилиты
+
+   Что здесь:
+   - CSS Reset (box-sizing, margins)
+   - Токены тем (:root дефолты)
+   - Z-index шкала
+   - Универсальные утилиты (.btn, .ui-icon-btn, .ui-plus-btn)
+   - Scrollbar стили
+
+   ⚠️ ПРАВИЛО: НИКАКИХ компонентных стилей (.app-header, .modal и т.п.)!
+   Только токены и универсальные классы.
+   
+   ============================================================================= */
+
+/* === RESET === */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: 14px;
+  color-scheme: light dark; /* подсказка браузеру для нативных UI */
+  overscroll-behavior-y: none; /* отключаем «резинку» скролла */
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* === ТОКЕНЫ (дефолты — переопределяются в theme.css) === */
+:root {
+  /* ------------------------------ */
+  /* 📐 LAYOUT / ГЕОМЕТРИЯ          */
+  /* ------------------------------ */
+
+  /* SAFE AREAS (для телефонов с вырезами) */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* LinkApp strip (для панели Study) */
+  --linkapp-left: 0px;
+  --linkapp-width: 100vw;
+
+  /* Габариты и отступы */
+  --content-max: 1100px;
+  --page-gutter: 16px;
+
+  --header-h: 56px;
+  --statusbar-h: 28px;
+  --pagination-h: 44px;
+
+  --gap-8: 8px;
+  --gap-12: 12px;
+
+  /* ------------------------------ */
+  /* 📊 Z-INDEX ШКАЛА              */
+  /* ------------------------------ */
+
+  --z-base: 1;
+  --z-sticky: 100; /* header, statusbar, pagination */
+  --z-dropdown: 200; /* page-jumper, qa-target */
+  --z-popover: 300; /* burger, search */
+  --z-overlay: 1000; /* modal overlay */
+  --z-modal: 2000; /* modal content */
+  --z-toast: 3000; /* notifications */
+
+  /* ------------------------------ */
+  /* 🎨 БАЗОВАЯ ПАЛИТРА             */
+  /* (светлая тема по умолчанию)   */
+  /* ------------------------------ */
+
+  --bg: #ffffff;
+  --text: #111827;
+  --text-muted: #6b7280;
+
+  --accent: #3b82f6;
+  --warn: #e88873;
+  --success: #22c55e; /* зелёный для положительных действий (Rename и т.п.) */
+
+  /* ------------------------------ */
+  /* 🧱 ПОВЕРХНОСТИ И ГРАНИЦЫ       */
+  /* ------------------------------ */
+
+  /* Общие поверхности */
+  --surface-0: var(--bg);
+  --surface-1: #fafafa;
+  --surface-2: #f3f4f6;
+
+  /* Границы / разделители */
+  --hairline: rgba(0, 0, 0, 0.12);
+  --border: rgba(0, 0, 0, 0.15);
+
+  /* ------------------------------ */
+  /* ✒️ ЧЕРНИЛА (текст / иконки)    */
+  /* ------------------------------ */
+  /* ✅ ИСПОЛЬЗУЙ ТОЛЬКО ЭТИ ТОКЕНЫ для текста и иконок, 
+     НЕ var(--text) напрямую. */
+
+  --ink-strong: rgba(0, 0, 0, 0.92); /* основной текст, активные иконки */
+  --ink: rgba(0, 0, 0, 0.8); /* обычный текст */
+  --ink-weak: rgba(0, 0, 0, 0.6); /* приглушённые иконки/мета-инфо */
+
+  /* ------------------------------ */
+  /* 🧩 КОМПОНЕНТНЫЕ ТОКЕНЫ         */
+  /* (header, section, pagination…) */
+  /* ------------------------------ */
+
+  /* Шапка и её наследники (поповеры) */
+  --header-bg: #ffffff;
+  --header-fg: #111827;
+  --header-border: rgba(0, 0, 0, 0.12);
+
+  /* Поповеры и меню */
+  --popover-bg: var(--header-bg);
+  --popover-fg: var(--header-fg);
+  --menu-hover-bg: rgba(0, 0, 0, 0.08);
+
+  /* Секции */
+  --section-bg: rgba(0, 0, 0, 0.03);
+  --section-outline: rgba(0, 0, 0, 0.08);
+  --section-head-bg: rgba(0, 0, 0, 0.045);
+  --section-head-sep: rgba(0, 0, 0, 0.1);
+
+  /* Пагинация */
+  --pagination-bg: var(--bg);
+  --pagination-divider: var(--border);
+
+  /* Toast */
+  --toast-bg: #ffffff;
+
+  /* Чипы (активная страница и т.п.) */
+  --chip-active-bg: rgba(0, 0, 0, 0.12);
+  --chip-active-border: var(--accent);
+  --chip-active-fg: var(--accent);
+
+  /* ------------------------------ */
+  /* 🧠 STATES / СОСТОЯНИЯ          */
+  /* ------------------------------ */
+
+  /* Hover / Active для кнопок */
+  --btn-hover-bg: rgba(0, 0, 0, 0.06);
+  --btn-active-bg: rgba(0, 0, 0, 0.12);
+
+  /* Overlay (модалки и т.д.) */
+  --overlay: rgba(0, 0, 0, 0.4);
+
+  /* Focus-стили (outline при tab-навигации) */
+  --focus: rgba(0, 128, 255, 0.25);
+  --focus-border: rgba(0, 128, 255, 0.45);
+
+  /* Подсветка поиска */
+  --hl-underline: var(--accent);
+  --hl-bg: transparent;
+  --hl-text: inherit;
+
+  /* ------------------------------ */
+  /* 🪟 РАДИУСЫ, ТЕНИ, АНИМАЦИИ     */
+  /* ------------------------------ */
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-l: 14px;
+
+  --shadow-1: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+
+  /* ------------------------------ */
+  /* ➕ ИКОНКИ-ПЛЮСЫ                 */
+  /* ------------------------------ */
+
+  --plus-size: 18px;
+  --plus-size-s: 18px;
+  --plus-size-m: 20px;
+  --plus-size-l: 22px;
+
+  /* SVG-маска для тонкого плюса */
+  --thin-plus-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5v14M5 12h14' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+
+  /* ------------------------------ */
+  /* 🧷 SCROLLBAR                   */
+  /* ------------------------------ */
+
+  --sb-size: 10px;
+  --sb-radius: 8px;
+  --sb-track: var(--surface-1);
+  --sb-thumb: var(--border);
+  --sb-thumb-hover: var(--accent);
+}
+
+/* === SCROLLBAR (визуальный стиль) === */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
+
+/* WebKit/Blink (Chrome/Edge/Safari) */
+*::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+*::-webkit-scrollbar-track {
+  background: var(--sb-track);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--sb-thumb);
+  border-radius: var(--sb-radius);
+  border: 2px solid var(--sb-track); /* визуальная «впадинка» */
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sb-thumb-hover);
+}
+
+/* === УНИВЕРСАЛЬНЫЕ УТИЛИТЫ === */
+
+/* Базовая кнопка (reset всех браузерных стилей) */
+.btn {
+  font: inherit;
+  line-height: 1;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Универсальная кнопка-иконка (28x28px, прозрачная) */
+.ui-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 4px 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  border-radius: 6px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.75;
+  transition: opacity var(--dur-1), background var(--dur-1);
+}
+
+.ui-icon-btn:hover {
+  opacity: 1;
+  background: var(--btn-hover-bg);
+}
+
+/* Размеры иконок как утилиты */
+.ui-icon-14 {
+  font-size: 14px;
+}
+.ui-icon-16 {
+  font-size: 16px;
+}
+
+/* Плюс-кнопка (тонкий + из SVG-маски) */
+.ui-plus-btn {
+  font-size: 0; /* прячем текстовый '+' */
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  color: currentColor;
+  padding: 0;
+  position: relative;
+}
+
+/* Сам плюс (псевдоэлемент с маской) */
+.ui-plus-btn::before {
+  content: "";
+  width: var(--plus-size);
+  height: var(--plus-size);
+  background: currentColor;
+  -webkit-mask: var(--thin-plus-mask) center/contain no-repeat;
+  mask: var(--thin-plus-mask) center/contain no-repeat;
+  transition: transform var(--dur-1) ease;
+  position: relative;
+  z-index: 1;
+}
+
+.ui-plus-btn:hover::before {
+  transform: scale(1.06);
+}
+
+/* Вуаль hover (полупрозрачный фон при наведении) */
+.ui-plus-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--dur-1) ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ui-plus-btn:hover::after {
+  opacity: 0.12;
+}
+
+/* Модификаторы размеров плюса */
+.ui-plus-s::before {
+  width: var(--plus-size-s);
+  height: var(--plus-size-s);
+}
+.ui-plus-m::before {
+  width: var(--plus-size-m);
+  height: var(--plus-size-m);
+}
+.ui-plus-l::before {
+  width: var(--plus-size-l);
+  height: var(--plus-size-l);
+}
+
+/* Плюс с текстом (например, "Add section") */
+.ui-plus-labeled {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+
+.ui-plus-labeled::before {
+  content: "";
+  width: var(--plus-size, 18px);
+  height: var(--plus-size, 18px);
+  background: currentColor;
+  -webkit-mask: var(--thin-plus-mask) center/contain no-repeat;
+  mask: var(--thin-plus-mask) center/contain no-repeat;
+  transition: transform var(--dur-1) ease;
+}
+
+.ui-plus-labeled:hover::before {
+  transform: scale(1.06);
+}
+
+/* Screen reader only (для доступности) */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 1px 1px) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Focus visible (outline при tab-навигации) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-border);
+  outline-offset: 2px;
+}
+
+.logo-btn .app-logo {
+  display: none;
+  height: 32px;
+  width: auto;
+}
+
+/* Если тема задаётся как html[data-theme="..."] */
+html[data-theme="light"] .app-logo--light {
+  display: block;
+}
+html[data-theme="dark"] .app-logo--dark {
+  display: block;
+}
+html[data-theme="sea"] .app-logo--sea {
+  display: block;
+}
+
+/* Для режима system: подстраиваемся под систему */
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] .app-logo--dark {
+    display: block;
+  }
+}
+@media (prefers-color-scheme: light) {
+  html[data-theme="system"] .app-logo--light {
+    display: block;
+  }
+}

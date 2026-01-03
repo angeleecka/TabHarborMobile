@@ -1,0 +1,226 @@
+/* =============================================================================
+   
+   📁 PAGINATION.CSS — Пагинация страниц
+   
+   Что здесь:
+   - Контейнер (#pagination)
+   - Горизонтальная лента страниц (.pagination-scroll)
+   - Кнопки навигации (◀ ▶ +)
+   - Page chips (ярлыки страниц)
+   - Drag handle, close button
+   - DnD маркеры
+   - Responsive
+   
+   ============================================================================= */
+
+#pagination {
+  /* Positioning */
+  position: sticky;
+  bottom: var(--statusbar-h);
+  z-index: var(--z-sticky);
+  left: auto;
+  right: auto;
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 8px;
+
+  /* Sizing */
+  max-width: var(--content-max);
+  width: 100%;
+
+  /* Spacing */
+  padding: 2px 8px;
+  margin: 8px 12px 0 12px;
+  margin-inline: auto !important;
+
+  /* Visual */
+  background: var(--pagination-bg);
+  border-top: 1px solid var(--pagination-divider);
+  border-radius: 0;
+
+  /* ⚠️ КРИТИЧНО: не обрезаем крестики и стрелки */
+  overflow: visible !important;
+}
+
+#pagination.flex {
+  overflow: visible !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+/* === SCROLL STRIP (горизонтальная лента) === */
+#pagination .pagination-scroll {
+  flex: 1 1 auto;
+  min-width: 0; /* критично для сжатия */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  white-space: nowrap;
+  padding-inline: 8px;
+  scroll-padding-inline: 8px;
+  box-sizing: border-box;
+  scrollbar-gutter: stable both-edges;
+}
+
+#pagination .pagination-scroll::-webkit-scrollbar {
+  height: 0;
+}
+
+/* === БАЗОВЫЕ КНОПКИ (◀ ▶ + и номера страниц) === */
+#pagination .pagination-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+  padding: 4px 8px;
+  min-height: 28px;
+  flex: 0 0 auto;
+  line-height: 1;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.95;
+}
+
+#pagination .pagination-btn:hover:not(:disabled) {
+  background: var(--btn-hover-bg);
+  opacity: 1;
+}
+
+#pagination .pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Активное состояние (объединяем дубли) */
+#pagination .pagination-btn.active,
+#pagination .page-number[aria-current="page"] {
+  background: var(--chip-active-bg);
+  color: var(--chip-active-fg);
+  font-weight: 600;
+  border-radius: 6px;
+  border-left: 1px solid var(--chip-active-fg);
+  outline: none;
+}
+
+/* === PAGE CHIP (ярлык страницы) === */
+#pagination .page-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative; /* для абсолютного .page-close */
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  --page-close-w: 16px;
+  padding-right: calc(var(--page-close-w) + 8px); /* запас под крестик */
+  scroll-margin-left: 8px;
+}
+
+#pagination .page-number:last-child {
+  scroll-margin-right: 8px;
+}
+
+/* === PAGE LABEL (текст ярлыка) === */
+#pagination .page-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* === DRAG HANDLE === */
+#pagination .page-handle {
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.55;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: element;
+}
+
+#pagination .page-number:hover .page-handle {
+  opacity: 0.85;
+}
+
+#pagination .page-number.dragging .page-handle {
+  cursor: grabbing;
+  opacity: 1;
+}
+
+/* === PAGE CLOSE (крестик) === */
+#pagination .page-number .page-close {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--page-close-w);
+  height: var(--page-close-w);
+  line-height: 1;
+  opacity: 0.55;
+  color: var(--chip-active-fg);
+  display: inline;
+  cursor: pointer;
+}
+
+#pagination .page-number:hover .page-close,
+#pagination .page-number.active .page-close,
+#pagination .page-number[aria-current="page"] .page-close {
+  display: inline-block;
+  opacity: 0.9;
+  color: var(--accent);
+}
+
+#pagination .page-close:hover {
+  opacity: 1;
+  color: var(--chip-active-fg);
+}
+
+/* === DRAG & DROP === */
+#pagination .page-drop-marker {
+  width: 2px;
+  height: 22px;
+  background: var(--accent);
+  border-radius: 1px;
+  box-shadow: 0 0 8px var(--accent);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#pagination .page-number.dragging {
+  opacity: 0.6;
+}
+
+/* === КНОПКА "+" === */
+#pagination .pagination-btn.add-page-btn {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 6px 10px;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  #pagination {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(var(--safe-bottom) + var(--statusbar-h));
+    margin: 0;
+    max-width: 100%;
+    border-radius: 0;
+    z-index: var(--z-sticky);
+  }
+}

@@ -1,0 +1,187 @@
+/* =============================================================================
+   
+   📁 SEARCH.CSS — Глобальный поиск
+   
+   Что здесь:
+   - Панель результатов (#globalSearchResults)
+   - Элементы списка (.sr-item)
+   - Подсветка активного (.is-active)
+   - Приглушение секций при поиске (body.search-active)
+   - Анимация прыжка к результату (.jump-flash)
+   
+   ============================================================================= */
+/* === ПАНЕЛЬ РЕЗУЛЬТАТОВ === */
+#globalSearchResults.search-results {
+  background: var(--popover-bg);
+  color: var(--popover-fg);
+  border: 1px solid var(--header-border);
+  border-radius: 10px;
+  max-height: min(60vh, 420px);
+  overflow: auto;
+  box-shadow: var(--shadow-1);
+  padding: 6px;
+}
+
+/* 💡 Внутри поповера весь текст опирается на popover-fg,
+   чтобы в любой теме был контраст */
+#globalSearchResults .sr-item,
+#globalSearchResults .sr-title,
+#globalSearchResults .sr-path,
+#globalSearchResults .sr-empty,
+#globalSearchResults .sr-hint,
+#globalSearchResults .sr-ico {
+  color: var(--popover-fg);
+}
+
+/* Метки пути/подсказки и иконки — чуть приглушённые,
+   но по-прежнему читаемые */
+#globalSearchResults .sr-path,
+#globalSearchResults .sr-hint {
+  color: color-mix(in oklab, var(--popover-fg) 78%, transparent);
+}
+
+#globalSearchResults .sr-ico {
+  color: color-mix(in oklab, var(--popover-fg) 88%, transparent);
+}
+
+/* === СПИСОК === */
+#globalSearchResults .sr-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* === ЭЛЕМЕНТЫ === */
+#globalSearchResults .sr-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+#globalSearchResults .sr-item:hover {
+  background: var(--menu-hover-bg);
+}
+
+#globalSearchResults .sr-title {
+  font-weight: 600;
+}
+
+#globalSearchResults .sr-path {
+  grid-column: 2;
+  font-size: 12px;
+}
+
+/* Хинт (подсказка внизу) */
+#globalSearchResults .sr-hint {
+  margin-top: 4px;
+  padding: 6px 8px 2px;
+  border-top: 1px solid var(--header-border);
+  font-size: 12px;
+}
+
+/* Пусто */
+#globalSearchResults .sr-empty {
+  padding: 10px 8px;
+}
+
+/* Активный элемент (клавиатурная навигация) */
+#globalSearchResults .sr-item.is-active {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  background: var(--menu-hover-bg);
+}
+
+/* === ПРИГЛУШЕНИЕ СЕКЦИЙ ПРИ ПОИСКЕ === */
+body.search-active .section {
+  opacity: 0.35;
+  transition: opacity 0.12s ease;
+}
+
+body.search-active .section[data-search-hit="1"] {
+  opacity: 1;
+  background: color-mix(in oklab, var(--accent) 6%, transparent);
+  border-radius: var(--radius-md);
+}
+
+/* === ВСПЫШКА ЦЕЛИ === */
+.search-hit-flash {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  transition: outline-color 0.8s ease;
+}
+
+.search-hit-flash {
+  outline-color: transparent;
+}
+
+@keyframes jumpFlash {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent);
+  }
+  100% {
+    box-shadow: 0 0 0 12px transparent;
+  }
+}
+
+.jump-flash {
+  outline: 2px solid var(--accent);
+  border-radius: 10px;
+  animation: jumpFlash 900ms ease-out;
+}
+
+/* Мобильный поиск в поповере — всегда читабельный инпут */
+.header-search-popover input[type="search"],
+.header-search-popover input[type="text"],
+#searchInputMobile {
+  background: var(--header-bg);
+  color: var(--ink-strong);
+  border: 1px solid color-mix(in oklab, var(--ink-strong) 18%, transparent);
+  border-radius: var(--radius-sm);
+}
+
+.header-search-popover input::placeholder,
+#searchInputMobile::placeholder {
+  color: color-mix(in oklab, var(--ink-strong) 55%, transparent);
+}
+
+/* Убираем нативную синюю лупу у search-инпутов */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+/* FIX (Android/WebView too): make typed text readable in Search popover */
+input[placeholder="Search title or URL"] {
+  color: var(--ink, #111);
+  -webkit-text-fill-color: var(--ink, #111);
+}
+
+input[placeholder="Search title or URL"]::placeholder {
+  color: var(--muted, #6b7280);
+}
+/* FIX: typed text in Search input must stay readable даже в Dark/Sea */
+.search-popover input,
+.search-popover input[type="search"],
+.search-popover .search-input,
+.global-search input,
+#globalSearchInput {
+  color: var(--ink-strong, #111) !important;
+  -webkit-text-fill-color: var(--ink-strong, #111) !important;
+  caret-color: var(--ink-strong, #111) !important;
+}
+
+/* placeholder отдельно, чтобы не мешал */
+.search-popover input::placeholder,
+.global-search input::placeholder,
+#globalSearchInput::placeholder {
+  color: var(--muted, #6b7280) !important;
+}

@@ -1,0 +1,770 @@
+/* =============================================================================
+   
+   📁 MODALS.CSS — Модальные окна
+   
+   Что здесь:
+   - Overlay (.modal-overlay)
+   - Модалка (.modal)
+   - Header (.modal-header) с логотипом
+   - Body (.modal-body)
+   - Fields (.modal-field)
+   - Buttons (.modal-actions, .modal-buttons-group)
+   - About / Hotkeys
+   - Responsive
+   
+   ============================================================================= */
+
+/* === OVERLAY === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay);
+  display: grid;
+  place-items: center;
+  z-index: var(--z-overlay);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Когда Study Panel открыта — ограничиваем overlay полосой LinkApp */
+body.with-study-panel .modal-overlay,
+body.compact-1060 .modal-overlay,
+body.compact-900 .modal-overlay {
+  left: var(--linkapp-left);
+  width: var(--linkapp-width);
+  right: auto;
+}
+
+/* === МОДАЛКА === */
+.modal {
+  width: min(600px, 92vw);
+  max-height: 85vh;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+  z-index: var(--z-modal);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === HEADER === */
+.modal-header {
+  padding: 14px 16px;
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Логотип слева (псевдоэлемент, не трогаем HTML) */
+.modal-header::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  background: url("../icons/icon.png") no-repeat center / contain;
+  opacity: 0.95;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  flex: 1; /* растягиваем, чтобы .modal-close прижался вправо */
+}
+
+/* Крестик закрытия */
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: color var(--dur-1), background var(--dur-1);
+}
+
+.modal-close:hover {
+  color: var(--warn);
+  background: var(--surface-2);
+}
+
+/* === BODY === */
+.modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* === FIELDS === */
+.modal-field {
+  margin-bottom: 14px;
+}
+
+.modal-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.modal-field input[type="text"],
+.modal-field input[type="url"],
+.modal-field input[type="email"],
+.modal-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text);
+  font-size: 1em;
+  transition: border-color var(--dur-1), background var(--dur-1);
+  box-sizing: border-box;
+}
+
+.modal-field input:focus,
+.modal-field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--bg);
+}
+
+/* === BUTTONS === */
+.modal-buttons-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* Равномерная ширина кнопок для всех стандартных футеров */
+.modal
+  :is(.modal-actions, .modal-footer, .modal-buttons-group)
+  :is(button, .btn):not(.modal-close) {
+  flex: 1;
+  min-width: 100px;
+}
+
+/* === FOOTER / ACTIONS === */
+.modal-footer,
+.modal-actions {
+  padding: 12px 16px;
+  background: var(--surface-1);
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+}
+
+/* Отдельно задаём выравнивание */
+.modal-footer {
+  justify-content: flex-end; /* если где-то нужен «старый» стиль справа */
+}
+
+.modal-actions {
+  justify-content: center; /* обычные футеры — по центру, с равной шириной */
+}
+
+/* Универсальные кнопки модалок (вид) — как у тебя уже было */
+.modal
+  :is(.modal-actions, .modal-footer, .modal-buttons-group)
+  :is(button, .btn):not(.modal-close) {
+  font: inherit;
+  line-height: 1.15;
+  padding: 8px 12px;
+  min-height: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--dur-1), border-color var(--dur-1);
+}
+
+.modal
+  :is(.modal-actions, .modal-footer, .modal-buttons-group)
+  :is(button, .btn):not(.modal-close):hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+
+.modal
+  :is(.modal-actions, .modal-footer, .modal-buttons-group)
+  :is(button, .btn):not(.modal-close):focus-visible {
+  outline: 2px solid var(--focus-border);
+  outline-offset: 2px;
+}
+
+/* Варианты кнопок */
+.modal :is(.modal-actions, .modal-footer, .modal-buttons-group) .btn.save {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.modal
+  :is(.modal-actions, .modal-footer, .modal-buttons-group)
+  .btn.save:hover {
+  filter: brightness(0.95);
+}
+
+.modal :is(.modal-actions, .modal-footer, .modal-buttons-group) .btn.delete {
+  background: var(--warn);
+  border-color: var(--warn);
+  color: #fff;
+}
+
+/* === Sessions modal row buttons (Activate / Rename / Delete) === */
+.sessions-modal .row .actions .btn.rename {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+
+.sessions-modal .row .actions .btn.delete {
+  background: var(--warn);
+  border-color: var(--warn);
+  color: #fff;
+}
+
+/* === ABOUT / HOTKEYS === */
+.hotkeys-title {
+  margin: 12px 0 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.hotkeys-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 6px 0 8px;
+}
+
+.hotkeys-table td {
+  padding: 6px 8px;
+  vertical-align: top;
+  border-top: 1px dashed var(--border);
+}
+
+.hotkeys-table tr:first-child td {
+  border-top: 0;
+}
+
+.hotkeys-table td:first-child {
+  width: 52%;
+  color: var(--text);
+}
+
+.hotkeys-note {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.95em;
+}
+
+/* Универсальный вид для <kbd> */
+kbd {
+  font: 600 0.92em/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--text);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-bottom-color: color-mix(in oklab, var(--border), black 12%);
+  padding: 2px 6px;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--border), black 12%);
+  white-space: nowrap;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .modal {
+    width: 95vw;
+  }
+}
+
+.qa-ns-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+.qa-ns-card {
+  width: min(520px, calc(100vw - 24px));
+  border-radius: 14px;
+  padding: 14px;
+  background: var(--panel-bg, #2b2b2b);
+  color: var(--text, #fff);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+.qa-ns-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.qa-ns-title {
+  font-weight: 700;
+}
+.qa-ns-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 22px;
+  line-height: 1;
+}
+.qa-ns-label {
+  display: block;
+  margin: 10px 0;
+}
+.qa-ns-label > span {
+  display: block;
+  opacity: 0.8;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.qa-ns-page,
+.qa-ns-name {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+.qa-ns-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.qa-ns-cancel,
+.qa-ns-save {
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+/* чтобы select выглядел как остальные поля в модалках */
+.modal-field select {
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text);
+  font: inherit;
+  box-sizing: border-box;
+
+  /* на случай глобальных reset’ов */
+  appearance: auto;
+  -webkit-appearance: menulist;
+}
+
+.modal-field select:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--bg);
+}
+
+.tpl-chooser__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tpl-btn {
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+.tpl-chooser__skip {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+.tpl-chooser__hint {
+  opacity: 0.75;
+  margin-top: 10px;
+}
+
+/* =========================================================
+   Welcome Start (Template Chooser) — fullscreen style
+   ========================================================= */
+
+.modal.welcome-modal {
+  width: min(980px, calc(100vw - 32px));
+  padding: 0;
+  overflow: hidden;
+
+  /* убираем “толстую чёрную” */
+  border: 3px solid transparent;
+  background: linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.65),
+        rgba(180, 255, 235, 0.65),
+        rgba(200, 255, 120, 0.55),
+        rgba(180, 140, 255, 0.55),
+        rgba(120, 245, 255, 0.55)
+      )
+      border-box;
+
+  border-radius: 15px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* скрываем стандартный header у модалки для welcome-экрана */
+.modal.welcome-modal .modal-header {
+  display: none;
+}
+
+/* фон оверлея как “баннер” */
+.modal-overlay.welcome-overlay {
+  background: radial-gradient(
+      1100px 600px at 30% 40%,
+      rgba(0, 255, 255, 0.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 70% 75%,
+      rgba(100, 120, 255, 0.12),
+      transparent 55%
+    ),
+    rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+}
+
+.welcome-start {
+  min-height: 420px;
+  background: none;
+}
+
+/* стеклянная панель внутри */
+.welcome-start__panel {
+  /* убираем внутренние поля, чтобы картинка легла “в край” */
+  padding: 0;
+  min-height: 420px;
+  position: relative;
+  background: url("../store/open.png") center / cover no-repeat;
+  border-radius: 15px; /* чтобы совпало с welcome-modal */
+  overflow: hidden;
+}
+
+@media (max-width: 560px) {
+  .welcome-start__panel {
+    background: url("../store/open-mob.png") center / cover no-repeat;
+  }
+}
+
+/* бренд */
+.welcome-start__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.welcome-start__brandIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+}
+
+.welcome-start__brandName {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.welcome-start__brandTag {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* центр */
+.welcome-start__content {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.welcome-start__title {
+  font-size: 20px;
+  letter-spacing: 0.2px;
+  margin-bottom: 10px;
+}
+
+.welcome-start__actions {
+  display: grid;
+  gap: 12px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* “стеклянные” кнопки */
+.welcome-start__btn {
+  height: 52px;
+  border-radius: 14px;
+  color: inherit;
+  cursor: pointer;
+
+  border: 2px solid transparent;
+  background: linear-gradient(rgba(10, 24, 48, 0.35), rgba(10, 24, 48, 0.35))
+      padding-box,
+    linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.55),
+        rgba(140, 255, 240, 0.55),
+        rgba(210, 255, 120, 0.45),
+        rgba(180, 140, 255, 0.45),
+        rgba(120, 245, 255, 0.45)
+      )
+      border-box;
+
+  backdrop-filter: blur(8px);
+
+  /* имитация “нескольких обводок” — это не обводка, а свечение */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 10px 30px rgba(0, 0, 0, 0.25), 0 0 12px rgba(120, 245, 255, 0.18),
+    0 0 16px rgba(210, 255, 120, 0.1), 0 0 18px rgba(180, 140, 255, 0.12);
+
+  font-size: 16px;
+  letter-spacing: 0.2px;
+
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.35);
+  -webkit-font-smoothing: antialiased;
+  font-weight: 500; /* или 600 если хочется плотнее */
+  position: relative;
+  isolation: isolate; /* чтобы glow не мешал соседям */
+}
+
+.welcome-start__btn:hover {
+  background: linear-gradient(rgba(12, 30, 60, 0.42), rgba(12, 30, 60, 0.42))
+      padding-box,
+    linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.75),
+        rgba(140, 255, 240, 0.7),
+        rgba(210, 255, 120, 0.6),
+        rgba(180, 140, 255, 0.6),
+        rgba(120, 245, 255, 0.6)
+      )
+      border-box;
+
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset,
+    0 12px 34px rgba(0, 0, 0, 0.28), 0 0 12px rgba(120, 245, 255, 0.22),
+    0 0 18px rgba(200, 255, 120, 0.16), 0 0 22px rgba(180, 140, 255, 0.16);
+}
+
+.welcome-start__btn:active {
+  transform: translateY(1px);
+}
+
+.welcome-start__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+/* низ справа */
+.welcome-start__footer {
+  margin-top: 50px;
+  margin-right: 40px;
+  display: flex;
+  flex-direction: column; /* NEW */
+  align-items: flex-end; /* справа */
+  gap: 6px; /* компактный зазор */
+}
+
+.welcome-start__hint {
+  font-size: 11px;
+  opacity: 0.75;
+  white-space: nowrap; /* чтобы не ломалось на 3 строки */
+}
+
+.welcome-start__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  user-select: none;
+}
+.welcome-start__inner {
+  padding: 18px 18px 16px;
+}
+.modal.welcome-modal .modal-body {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.modal.welcome-modal .modal-body > * {
+  margin: 0 !important;
+}
+.welcome-start,
+.welcome-start__panel {
+  width: 100%;
+  height: 100%;
+}
+
+/* мягкое неоновое сияние вокруг градиентной рамки */
+.welcome-start__btn::after {
+  content: "";
+  position: absolute;
+  inset: -3px; /* “вылезает” наружу рамки */
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(140, 255, 240, 0.55),
+    rgba(210, 255, 120, 0.45),
+    rgba(180, 140, 255, 0.45),
+    rgba(120, 245, 255, 0.45)
+  );
+  filter: blur(10px);
+  opacity: 0.22; /* сила свечения */
+  z-index: -1;
+  pointer-events: none;
+}
+
+.welcome-start__btn:hover::after {
+  opacity: 0.34;
+  filter: blur(12px);
+}
+
+/* =========================
+   Settings modal: groups
+   ========================= */
+
+.modal .settings-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 12px 0 14px;
+}
+
+@media (max-width: 700px) {
+  .modal .settings-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* “Карточки” для Theme / Restore policy */
+.modal .settings-groups .settings-group {
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  border-radius: var(--radius-2, 12px);
+  padding: 12px;
+}
+
+/* Заголовок внутри карточки */
+.modal .settings-groups .settings-group > h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Варианты — вертикально */
+.modal .settings-groups .settings-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.modal .settings-groups .settings-group label:first-of-type {
+  margin-top: 0;
+}
+
+/* Welcome/start modal: keep readable on image in ANY theme */
+.welcome-start {
+  color: #fff;
+}
+
+.welcome-start :is(h1, h2, h3, p, span, label, button, a) {
+  color: inherit;
+}
+
+/* мелкий текст чуть мягче */
+.welcome-start .muted,
+.welcome-start small {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* чуть повысим читабельность на фоне картинки */
+.welcome-start :is(h1, h2, h3, p, span, label, button, a) {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+/* === About: donate donut button === */
+.about-donate-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.about-donate-btn {
+  --donateSize: 100px;
+
+  width: var(--donateSize);
+  height: var(--donateSize);
+  flex: 0 0 var(--donateSize);
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+  box-sizing: border-box;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 12px);
+  background: var(--surface-1);
+  cursor: pointer;
+}
+
+.about-donate-btn .donut {
+  font-size: calc(var(--donateSize) * 0.62); /* <- “жирность” */
+  line-height: 1;
+  transform: translateY(1px); /* чуть оптически по центру */
+}
+
+.about-donate-btn:hover {
+  background: var(--surface-2);
+}
+.about-donate-btn:focus-visible {
+  outline: 2px solid var(--focus-border);
+  outline-offset: 2px;
+}
+.inline-emoji {
+  width: 2.5em;
+  height: 2.5em;
+  vertical-align: -0.15em;
+  object-fit: contain;
+}

@@ -1,0 +1,388 @@
+/* =============================================================================
+     СЕКЦИИ
+     ============================================================================= */
+.section {
+  margin-bottom: 0.5rem;
+}
+
+/* Заголовок секции */
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  cursor: default;
+}
+
+/* Иконка редактирования секции */
+.section-edit-icon {
+  font-size: 0.75em;
+  margin-left: 12px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color var(--dur-1), transform var(--dur-1);
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.section-edit-icon:hover {
+  color: var(--text);
+  background: var(--surface-2);
+  transform: rotate(90deg);
+}
+
+.assignments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.add-section {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all var(--dur-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.add-section:hover {
+  color: var(--accent);
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+
+/* DnD секций — визуальные состояния */
+.section.dragging {
+  opacity: 0.7;
+}
+
+/* Отключаем старую «рамку секции» если где-то осталась логика */
+.section.drop-before,
+.section.drop-after {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.section-title {
+  position: relative;
+}
+.section-handle {
+  margin-right: 8px;
+  display: inline-block;
+  opacity: 0.7;
+  cursor: grab;
+  user-select: none;
+}
+.section-handle:active {
+  cursor: grabbing;
+  opacity: 1;
+}
+
+.section.drop-before {
+  box-shadow: inset 0 3px 0 var(--accent);
+}
+.section.drop-after {
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+/* Маркер вставки секции */
+.section-drop-marker {
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin: 10px 0;
+  opacity: 1 !important;
+  pointer-events: none;
+  box-shadow: 0 0 12px var(--accent);
+  width: 100%;
+  display: block !important;
+  visibility: visible !important;
+  position: relative;
+  z-index: 10;
+  animation: markerPulse 1s ease-in-out infinite;
+}
+
+/* Визуальное состояние перетаскивания */
+.section.dragging {
+  opacity: 0.5;
+  filter: grayscale(0.5);
+}
+
+/* Убираем старые пунктирные рамки (если остались) */
+.assignments-grid.drag-over,
+.app-body.drag-over-sections,
+#app-body.drag-over-sections,
+.section.drop-before,
+.section.drop-after {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Появление маркера (однократно) */
+@keyframes sectionMarkerAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Пульсация маркера (бесконечно) */
+@keyframes sectionMarkerPulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 12px var(--accent);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 6px var(--accent);
+  }
+}
+
+/* применяем к полоске-маркеру секции */
+.section-drop-marker {
+  /* если хочешь и появление, и пульс — цепочкой: */
+  animation: sectionMarkerAppear 120ms ease-out,
+    sectionMarkerPulse 1.2s ease-in-out 120ms infinite;
+}
+
+/* --- Collapsible sections --- */
+.section.collapsed .assignments-grid {
+  display: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* стрелка ведёт себя как икон-кнопка (уже есть ui-icon-btn/ui-icon-16) */
+.section-title .section-chevron {
+  /* дополнительный визуальный намёк на поворот */
+  transition: transform var(--dur-1, 120ms);
+}
+
+.section.collapsed .section-chevron {
+  transform: rotate(-90deg);
+}
+
+.section-title-text.section-title--search-hit {
+  background: color-mix(in oklab, var(--accent) 16%, transparent);
+  outline: 2px solid var(--accent);
+  border-radius: 6px;
+  padding-inline: 4px;
+}
+
+/* =============================================================================
+         АДАПТИВНОСТЬ (МОБИЛЬНЫЕ УСТРОЙСТВА)
+         ============================================================================= */
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .assignments-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+  }
+}
+
+/* =========================================================
+       Mobile List View для LinkApp (assignments-grid / assignment-button)
+       Включается атрибутом: html[data-view="rows"]
+       ========================================================= */
+@media (max-width: 900px) {
+  /* 1) Контейнеры сетки — в одну колонку (только для НЕ свёрнутых секций) */
+  html[data-view="rows"] #app-body .assignments-grid:not(.section.collapsed *),
+  html[data-view="rows"] #content .assignments-grid:not(.section.collapsed *),
+  html[data-view="rows"] .section:not(.collapsed) .assignments-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* 2) Карточка/кнопка — «строка» списка */
+  html[data-view="rows"] .assignment-button {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 12px;
+    min-height: 44px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-1);
+    box-shadow: none;
+    text-align: left; /* если это <button> */
+  }
+
+  /* 3) Типичные внутренности (если есть) */
+  html[data-view="rows"] .assignment-button .thumb {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  html[data-view="rows"] .assignment-button .title,
+  html[data-view="rows"] .assignment-button .label {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  html[data-view="rows"] .assignment-button .meta {
+    color: var(--text-muted);
+    font-size: 0.92em;
+  }
+
+  /* 4) Ховер — мягкий */
+  html[data-view="rows"] .assignment-button:hover {
+    background: var(--btn-hover-bg);
+    border-color: var(--accent);
+  }
+}
+
+/* Collapse: прячем любое содержимое секции независимо от разметки */
+.section.collapsed .assignments-grid,
+.section.collapsed .assignments-list,
+.section.collapsed [id^="assignments-grid-"],
+.section.collapsed .section-content {
+  display: none !important;
+}
+
+/* ==========================================================
+   PREMIUM CONTENT SKIN — ONLY CONTENT (page + sections + cards)
+   Scope: #app-body (не трогаем header/statusbar/modals)
+   ========================================================== */
+
+#app-body {
+  /* чуть “воздуха” снизу, чтобы контент не прилипал */
+  padding-top: calc(4px + env(safe-area-inset-top, 0px));
+  padding-right: 16px;
+  padding-left: 16px;
+  padding-bottom: calc(46px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------- Page title (иерархия уровня 1) ---------- */
+#app-body .page-titlebar {
+  margin: 6px 0 10px;
+  padding: 12px 14px;
+  border-radius: var(--r-2, 14px);
+  background: var(--surface-2, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
+}
+
+#app-body .page-title-text {
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 750;
+  letter-spacing: 0.2px;
+  color: var(--ink-strong, rgba(255, 255, 255, 0.92));
+}
+
+#app-body .page-label,
+#app-body .page-number {
+  color: var(--ink-weak, rgba(255, 255, 255, 0.62));
+}
+
+/* ---------- Sections layout ---------- */
+#app-body .sections-wrap {
+  display: grid;
+  gap: 6px;
+}
+
+/* ---------- Section block (иерархия уровня 2) ---------- */
+#app-body .section {
+  border-radius: var(--r-2, 14px);
+  background: var(--surface, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.18);
+  overflow: clip; /* красиво режет фон/hover, не влияет на модалки */
+}
+
+#app-body .section-title {
+  padding: 2px 14px 8px;
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+}
+
+#app-body .section-title-text {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-weak, rgba(255, 255, 255, 0.68));
+}
+
+/* Когда секция подсвечена поиском — делаем текст заметнее */
+#app-body .section-title--search-hit .section-title-text {
+  color: var(--ink-strong, rgba(255, 255, 255, 0.92));
+}
+
+/* ---------- Section content “tray” (визуальная группа для карточек) ---------- */
+#app-body .section-content {
+  padding: 12px 12px 14px;
+  background: var(--surface-2, rgba(0, 0, 0, 0.16));
+}
+
+/* ---------- Cards (кнопки/ссылки) ---------- */
+#app-body .link-card,
+#app-body .button-card {
+  border-radius: var(--r-1, 12px);
+  background: var(--control-bg, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--control-border, rgba(255, 255, 255, 0.1));
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+  transition: transform 120ms ease, box-shadow 120ms ease,
+    border-color 120ms ease;
+}
+
+/* Лёгкая “дорогая” реакция на hover */
+@media (hover: hover) {
+  #app-body .link-card:hover,
+  #app-body .button-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.35);
+  }
+}
+
+#app-body .link-card button,
+#app-body .button-card button {
+  color: var(--control-ink, var(--ink, rgba(255, 255, 255, 0.82)));
+  font-weight: 650;
+}
+
+/* Чуть выше контраст у текста внутри карточек */
+#app-body .link-card .title,
+#app-body .button-card .title {
+  color: var(--ink-strong, rgba(255, 255, 255, 0.92));
+}
+
+/* Состояния “пусто” (если используешь) */
+#app-body .empty,
+#app-body .body-empty {
+  color: var(--ink-weak, rgba(255, 255, 255, 0.62));
+}

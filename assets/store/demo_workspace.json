@@ -1,0 +1,187 @@
+{
+  "pages": [
+    {
+      "id": "page-demo-essentials",
+      "name": "DEMO: Essentials",
+      "sections": {
+        "s-media": {
+          "text": "Example: Social & Media",
+          "buttons": [
+            {
+              "id": "b-media-1",
+              "text": "YouTube (Videos)",
+              "href": "https://www.youtube.com"
+            },
+            {
+              "id": "b-media-2",
+              "text": "LinkedIn (Career)",
+              "href": "https://www.linkedin.com"
+            },
+            {
+              "id": "b-media-3",
+              "text": "Reddit (Forums)",
+              "href": "https://www.reddit.com"
+            }
+          ]
+        },
+        "s-info": {
+          "text": "Example: News & Info",
+          "buttons": [
+            {
+              "id": "b-info-1",
+              "text": "BBC News (World)",
+              "href": "https://www.bbc.com/news"
+            },
+            {
+              "id": "b-info-2",
+              "text": "Wikipedia (Lookup)",
+              "href": "https://www.wikipedia.org"
+            },
+            {
+              "id": "b-info-3",
+              "text": "Google Maps (Navigation)",
+              "href": "https://maps.google.com"
+            }
+          ]
+        },
+        "s-daily": {
+          "text": "Example: Daily Tools",
+          "buttons": [
+            {
+              "id": "b-daily-1",
+              "text": "Google Search",
+              "href": "https://www.google.com"
+            },
+            {
+              "id": "b-daily-2",
+              "text": "Google Translate",
+              "href": "https://translate.google.com"
+            },
+            {
+              "id": "b-daily-3",
+              "text": "Weather (Current)",
+              "href": "https://www.weather.com"
+            },
+            {
+              "id": "b-daily-4",
+              "text": "VirusTotal (Security Check)",
+              "href": "https://www.virustotal.com"
+            }
+          ]
+        }
+      },
+      "sectionsOrder": ["s-media", "s-info", "s-daily"]
+    },
+    {
+      "id": "page-demo-work",
+      "name": "WORK: Dev & Projects",
+      "sections": {
+        "s-code": {
+          "text": "Example: Coding Resources",
+          "buttons": [
+            {
+              "id": "b-code-1",
+              "text": "GitHub (Repos)",
+              "href": "https://github.com"
+            },
+            {
+              "id": "b-code-2",
+              "text": "Stack Overflow (Q&A)",
+              "href": "https://stackoverflow.com"
+            },
+            {
+              "id": "b-code-3",
+              "text": "MDN Web Docs",
+              "href": "https://developer.mozilla.org"
+            },
+            {
+              "id": "b-code-4",
+              "text": "Regex 101 (Testing)",
+              "href": "https://regex101.com"
+            }
+          ]
+        },
+        "s-pm": {
+          "text": "Example: Project Management",
+          "buttons": [
+            {
+              "id": "b-pm-1",
+              "text": "Trello (Boards)",
+              "href": "https://trello.com"
+            },
+            {
+              "id": "b-pm-2",
+              "text": "Figma (Design)",
+              "href": "https://www.figma.com"
+            }
+          ]
+        },
+        "s-empty-work": {
+          "text": "Example: Templates",
+          "buttons": [
+            {
+              "id": "b-empty-w1",
+              "text": "Add your first project link",
+              "href": ""
+            },
+            {
+              "id": "b-empty-w2",
+              "text": "Add client contact details",
+              "href": ""
+            }
+          ]
+        }
+      },
+      "sectionsOrder": ["s-code", "s-pm", "s-empty-work"]
+    },
+    {
+      "id": "page-demo-study",
+      "name": "STUDY: Learning Resources",
+      "sections": {
+        "s-lang": {
+          "text": "Example: Language & Skills",
+          "buttons": [
+            {
+              "id": "b-lang-1",
+              "text": "Duolingo",
+              "href": "https://www.duolingo.com"
+            },
+            {
+              "id": "b-lang-2",
+              "text": "Coursera",
+              "href": "https://www.coursera.org"
+            }
+          ]
+        },
+        "s-creative": {
+          "text": "Example: Creative Tools",
+          "buttons": [
+            {
+              "id": "b-creative-1",
+              "text": "Photopea (Image Editor)",
+              "href": "https://www.photopea.com"
+            },
+            {
+              "id": "b-creative-2",
+              "text": "Unsplash (Free Photos)",
+              "href": "https://unsplash.com"
+            }
+          ]
+        },
+        "s-notes": {
+          "text": "Example: Your Notes",
+          "buttons": [
+            {
+              "id": "b-notes-1",
+              "text": "Start a new reading list",
+              "href": ""
+            }
+          ]
+        }
+      },
+      "sectionsOrder": ["s-lang", "s-creative", "s-notes"]
+    }
+  ],
+  "deletedItemsHistory": [],
+  "currentPageIndex": 0
+}

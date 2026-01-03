@@ -1,0 +1,301 @@
+/* =========================================================
+   pages.css — Page Title Bar & Navigation
+   ========================================================= */
+
+/* ========== 1) КОНТЕЙНЕР ========== */
+.page-titlebar {
+  max-width: var(--content-max);
+  margin: 8px auto 10px;
+  padding: 0 var(--gap-12);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-jumper-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.goto-trigger {
+  display: none; /* показываем в адаптиве */
+}
+
+/* ========== 2) ЗАГОЛОВОК ========== */
+.page-title-text {
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 1.5rem;
+  text-align: center;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+/* Заголовок в панельном / компактном режиме — можно на 2 строки */
+body.with-study-panel .page-title-text,
+body.compact-900 .page-title-text {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.page-title-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ========== 3) ИКОНКА РЕДАКТИРОВАНИЯ ========== */
+.page-edit-icon {
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--border);
+  transition: transform var(--dur-1) ease, background var(--dur-1) ease;
+}
+
+.page-edit-icon:hover {
+  background: var(--btn-hover-bg);
+  transform: translateY(1px) rotate(90deg);
+  color: var(--text);
+}
+
+.page-edit-icon:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.page-edit-icon:focus-visible {
+  outline: 2px solid var(--focus-border);
+  outline-offset: 2px;
+}
+
+/* ========== 4) РЕДАКТИРОВАНИЕ (inline input) ========== */
+.page-title-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0 8px;
+}
+
+.page-title-input {
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  width: min(520px, 100%);
+  max-width: 100%;
+  min-width: 220px;
+  outline: none;
+}
+
+.page-title-input:focus {
+  box-shadow: 0 0 0 2px var(--focus);
+  border-color: var(--focus-border);
+}
+
+/* ========== 5) КНОПКА «СВЕРНУТЬ ВСЁ» ========== */
+.page-fold-toggle {
+  transform: translateY(1px);
+  margin-inline-end: 4px;
+}
+
+/* ========== 6) GO TO INPUT ========== */
+.page-jumper-input {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  line-height: 1.1;
+  min-width: 160px;
+  max-width: 260px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page-jumper-input:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+
+.page-jumper-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus);
+  border-color: var(--focus-border);
+}
+
+/* ========== 7) POPOVER (управляется JS, position: fixed) ========== */
+.page-jumper-popover {
+  /* position задаётся через JS */
+  width: min(220px, 90vw);
+  max-width: 100vw;
+  max-height: 40vh;
+  box-sizing: border-box;
+  padding: 6px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  z-index: var(--z-popover);
+  overflow: auto;
+}
+
+.page-jumper-popover[hidden] {
+  display: none;
+}
+
+/* Пункты поповера */
+.page-jumper-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.page-jumper-item .num {
+  font-weight: 600;
+  opacity: 0.8;
+  min-width: 2ch;
+}
+
+.page-jumper-item .name {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page-jumper-item:hover {
+  background: var(--surface-2);
+  color: var(--accent);
+}
+
+.page-jumper-item.active {
+  background: var(--btn-active-bg);
+  outline: 1px solid var(--accent);
+}
+
+/* ========== 8) МОБИЛЬНЫЙ ВСПЛЫВАЮЩИЙ ИНПУТ ========== */
+.page-jumper-mobile-wrap {
+  position: fixed;
+  top: calc(var(--header-h) + 8px);
+  z-index: var(--z-popover);
+  padding: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  box-sizing: border-box;
+}
+
+.page-jumper-mobile-wrap[hidden] {
+  display: none;
+}
+
+.page-jumper-mobile-input {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 0;
+  box-sizing: border-box;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+  outline-offset: 2px;
+}
+
+.page-jumper-mobile-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus);
+  border-color: var(--focus-border);
+}
+
+/* ========== 9) RESPONSIVE ========== */
+
+/* ≤900px: прячем поле, показываем иконку */
+@media (max-width: 900px) {
+  .goto-wrap,
+  .page-jumper-wrap {
+    display: none;
+    flex: 0 0 auto;
+  }
+
+  .goto-trigger {
+    display: inline-flex;
+  }
+
+  .page-title-input {
+    min-width: min(360px, 92vw);
+  }
+}
+
+/* Forced Compact: панель / узкий LinkApp → как мобильный режим */
+body.compact-900 .goto-wrap,
+body.compact-900 .page-jumper-wrap,
+body.with-study-panel .goto-wrap,
+body.with-study-panel .page-jumper-wrap {
+  display: none;
+}
+
+body.compact-900 .goto-trigger,
+body.with-study-panel .goto-trigger {
+  display: inline-flex;
+}
+
+/* ≤768px */
+@media (max-width: 768px) {
+  .page-title-text {
+    max-width: 75%;
+  }
+
+  .page-title-input {
+    width: min(360px, 100%);
+    min-width: 200px;
+  }
+
+  .page-jumper-input {
+    min-width: 140px;
+    max-width: 220px;
+  }
+}
+
+/* ≤420px */
+@media (max-width: 420px) {
+  .page-title-text {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

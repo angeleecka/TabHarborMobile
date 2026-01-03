@@ -1,0 +1,227 @@
+/* =============================================================================
+   
+   📁 STATUSBAR.CSS — Нижний бар
+   
+   Что здесь:
+   - Контейнер (#app-status)
+   - Горизонтальная прокрутка (.status-flex)
+   - Кнопки (theme, view switcher)
+   - Save indicator (dot)
+   - Responsive
+   
+   ============================================================================= */
+
+/* Подложка под safe-area (навбар телефона) */
+#app-status::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--safe-bottom);
+  background: var(--header-bg);
+  z-index: calc(var(--z-sticky) - 1);
+  pointer-events: none;
+}
+
+#app-status {
+  position: sticky;
+  bottom: var(--safe-bottom);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 10px;
+  background: var(--header-bg);
+  color: var(--header-fg);
+  border-top: 1px solid var(--header-border);
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  min-height: var(--statusbar-h);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable both-edges;
+  z-index: var(--z-sticky);
+}
+
+#app-status > * {
+  flex: 0 0 auto;
+}
+
+/* === СЕРЕДИНА БАРА (прокрутка) === */
+#app-status .status-flex {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--status-gap, 10px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  cursor: grab;
+}
+
+#app-status .status-flex::-webkit-scrollbar {
+  display: none;
+}
+
+/* Вертикальные разделители */
+#app-status .vsep {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background: var(--header-border);
+  margin: 0 4px;
+  flex: 0 0 1px;
+}
+
+/* Имя workspace: минимум 10 символов, остальное — троеточие */
+#app-status .status-flex .ws-name {
+  min-width: 10ch;
+  max-width: clamp(10ch, 45vw, 28ch);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 0 1 auto;
+}
+
+@media (max-width: 520px) {
+  #app-status .status-flex .ws-name {
+    max-width: clamp(10ch, 55vw, 32ch);
+  }
+}
+
+/* === SAVE INDICATOR === */
+#app-status .save-indicator {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+#app-status .save-indicator .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+}
+
+/* Saved: пустой кружок; Dirty: закрашенный с «!» */
+#app-status .save-indicator[data-state="saved"] .dot {
+  background: transparent;
+}
+
+#app-status .save-indicator[data-state="dirty"] .dot {
+  background: currentColor;
+  position: relative;
+}
+
+#app-status .save-indicator[data-state="dirty"] .dot::after {
+  content: "!";
+  position: absolute;
+  inset: 0;
+  font-size: 9px;
+  line-height: 10px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--bg);
+}
+
+/* === ФЕЙДЫ ПО КРАЯМ (намёк «можно скроллить») === */
+#app-status .status-flex::before,
+#app-status .status-flex::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  pointer-events: none;
+  transition: opacity var(--dur-1) ease;
+}
+
+#app-status .status-flex::before {
+  left: 0;
+  background: linear-gradient(to right, var(--header-bg), transparent);
+}
+
+#app-status .status-flex::after {
+  right: 0;
+  background: linear-gradient(to left, var(--header-bg), transparent);
+}
+
+/* Края достигнуты — гасим фейд */
+#app-status .status-flex.at-start::before {
+  opacity: 0;
+}
+
+#app-status .status-flex.at-end::after {
+  opacity: 0;
+}
+
+/* === КНОПКИ === */
+#app-status .status-theme-btn,
+#app-status .status-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--header-border);
+  background: transparent;
+  color: var(--header-fg);
+  cursor: pointer;
+}
+
+#app-status .status-theme-btn:hover,
+#app-status .status-view-btn:hover {
+  background: color-mix(in oklab, var(--header-fg) 12%, transparent);
+}
+
+#app-status .status-view-btn .mi svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Кнопку темы прижимаем вправо */
+#app-status .status-theme-btn {
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+/* Свитчер Tiles/List показываем ТОЛЬКО в компактном UI */
+#app-status .status-view-btn {
+  display: none;
+}
+
+body.study-overlay #app-status .status-view-btn,
+body.compact-900 #app-status .status-view-btn {
+  display: inline-flex;
+}
+
+@media (max-width: 900px) {
+  #app-status .status-view-btn {
+    display: inline-flex;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  #app-status {
+    gap: 6px;
+    padding-inline: 8px;
+  }
+
+  #app-status .status-flex {
+    gap: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-indicator .dot {
+    transition: none;
+  }
+}

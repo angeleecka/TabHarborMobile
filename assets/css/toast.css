@@ -1,0 +1,149 @@
+/* =============================================================================
+   
+   📁 TOAST.CSS — Уведомления
+   
+   Что здесь:
+   - Контейнер (#toast-container)
+   - Тост (.toast)
+   - Типы (success, error, warning, info)
+   - Иконка, сообщение, крестик
+   - Action button (.toast-action)
+   - Анимации show/hide
+   - Responsive
+   
+   ============================================================================= */
+
+/* === КОНТЕЙНЕР === */
+#toast-container {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + var(--header-h, 56px) + 8px);
+  right: 20px;
+  left: auto;
+  z-index: var(--z-toast);
+  isolation: isolate; /* новый контекст наложения */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+
+  max-width: min(560px, calc(100vw - 24px));
+}
+
+/* === ТОСТ === */
+.toast {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--toast-bg) !important; /* непрозрачный */
+  color: var(--text);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  border-left: 4px solid var(--accent);
+  min-width: 280px;
+  max-width: 400px;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: all;
+}
+
+/* Анимации */
+.toast-show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast-hide {
+  opacity: 0;
+  transform: translateX(100px);
+}
+
+/* === ТИПЫ === */
+.toast-success {
+  border-left-color: #4caf50;
+}
+
+.toast-error {
+  border-left-color: #f44336;
+}
+
+.toast-warning {
+  border-left-color: #ff9800;
+}
+
+.toast-info {
+  border-left-color: var(--accent);
+}
+
+/* === ЭЛЕМЕНТЫ === */
+.toast-icon {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 0.95em;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: color var(--dur-1), background var(--dur-1);
+}
+
+.toast-close:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+/* === ACTION BUTTON === */
+.toast-action {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  cursor: pointer;
+}
+
+.toast-action:hover {
+  filter: brightness(1.05);
+}
+
+.toast-action:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  #toast-container {
+    left: 10px;
+    right: 10px;
+
+    /* центрируем элементы внутри */
+    align-items: center;
+  }
+  .toast {
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+/* сами тосты должны оставаться кликабельными */
+#toast-container .toast {
+  pointer-events: auto;
+  width: fit-content;
+  max-width: 100%;
+}
